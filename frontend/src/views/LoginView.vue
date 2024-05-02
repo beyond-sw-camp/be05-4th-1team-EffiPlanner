@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <h2>회원가입</h2>
@@ -6,12 +5,6 @@
   </div>
 </template>
 
-<script>
-import SignUpForm from './SignUpForm.vue';
-
-export default {
-  components: {
-    SignUpForm
-  }
-};
+<script setup>
+import SignUpForm from '../components/SignUpForm.vue';
 </script>
