@@ -27,7 +27,6 @@ public class Todo {
 	private Long id;
 
     private String title;
-    private String description;
     private LocalDateTime deadline;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -43,10 +42,9 @@ public class Todo {
     private Category category;
 
     @Builder
-    public Todo(Long id, String title, String description, LocalDateTime deadline, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean deleteYn, Boolean doneYn, User user, Category category) {
+    public Todo(Long id, String title, LocalDateTime deadline, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean deleteYn, Boolean doneYn, User user, Category category) {
         this.id = id;
         this.title = title;
-        this.description = description;
         this.deadline = deadline;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -54,5 +52,18 @@ public class Todo {
         this.doneYn = doneYn;
         this.user = user;
         this.category = category;
+    }
+
+    public void update(String title, LocalDateTime deadline, Boolean deleteYn, Boolean doneYn) {
+        this.title = title;
+        this.deadline = deadline;
+        this.updatedAt = LocalDateTime.now();
+        this.deleteYn = deleteYn;
+        this.doneYn = doneYn;
+    }
+
+    public void delete(){
+        this.deleteYn = true;
+        this.updatedAt = LocalDateTime.now();
     }
 }
