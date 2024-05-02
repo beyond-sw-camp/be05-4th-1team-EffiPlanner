@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UserSignUpDTO {
-	private String userId;
+	private String email;
+	private String userNickname;
 	private String username;
-    private String email;
 	private String password1;
 	private String password2;
 }

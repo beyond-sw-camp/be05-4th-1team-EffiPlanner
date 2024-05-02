@@ -23,13 +23,9 @@ public class UserService {
     @Transactional
 	public List<String> signUp(UserSignUpDTO userSignUpDTO) {
 
-		String uId = userSignUpDTO.getUserId();
 		String email = userSignUpDTO.getEmail();
 
 		List<String> msg = new ArrayList<>();
-		if (userRepository.existsById(uId)) {
-			msg.add("이미 가입되어 있는 ID 입니다.");
-		}
 		if (userRepository.existsByEmail(email)) {
 			msg.add("이미 가입되어 있는 이메일 입니다.");
 		}
@@ -38,14 +34,14 @@ public class UserService {
 		}
 
 		User user = User.builder()
-                .userId(userSignUpDTO.getUserId())
+                .email(userSignUpDTO.getEmail())
                 .userName(userSignUpDTO.getUsername())
                 .password(userSignUpDTO.getPassword1()) // 비밀번호 암호화 필요
-                .email(userSignUpDTO.getEmail())
+                .userNickname(userSignUpDTO.getUserNickname())
                 .deleteYn(false)
                 .build();
         this.userRepository.save(user);
-        msg.add(user.getUserId() + "님 가입을 환영합니다.");
+        msg.add(user.getEmail() + "님 가입을 환영합니다.");
 		return msg;
 	}
 }

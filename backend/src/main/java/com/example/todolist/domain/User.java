@@ -17,18 +17,18 @@ public class User {
     
     @Id
 	@Column(name = "user_id")
-	private String userId;
+	private String email;
 
 	private String userName;
-	private String email;
+	private String userNickname;
 	private String password;
 	private Boolean deleteYn;
 
 	@Builder
-	public User(String userId, String userName, String email, String password, Boolean deleteYn) {
-		this.userId = userId;
-		this.userName = userName;
+	public User(String email, String userName, String userNickname, String password, Boolean deleteYn) {
 		this.email = email;
+		this.userName = userName;
+		this.userNickname = userNickname;
 		this.password = password;
 		this.deleteYn = deleteYn;
 	}
