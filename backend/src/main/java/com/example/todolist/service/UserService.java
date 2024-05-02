@@ -2,13 +2,18 @@ package com.example.todolist.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.todolist.domain.SignInResponse;
 import com.example.todolist.domain.User;
+import com.example.todolist.domain.UserSignInDTO;
 import com.example.todolist.domain.UserSignUpDTO;
 import com.example.todolist.repository.UserRepository;
+import com.example.todolist.security.TokenProvider;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +22,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    //private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+	private final TokenProvider tokenProvider;
     
 
     @Transactional
@@ -36,12 +42,25 @@ public class UserService {
 		User user = User.builder()
                 .email(userSignUpDTO.getEmail())
                 .userName(userSignUpDTO.getUsername())
-                .password(userSignUpDTO.getPassword1()) // 비밀번호 암호화 필요
+                .password(passwordEncoder.encode(userSignUpDTO.getPassword1())) // 비밀번호 암호화 필요
                 .userNickname(userSignUpDTO.getUserNickname())
                 .deleteYn(false)
                 .build();
         this.userRepository.save(user);
         msg.add(user.getEmail() + "님 가입을 환영합니다.");
 		return msg;
+	}
+
+	@Transactional
+	public SignInResponse signIn(UserSignInDTO userSignInDTO){
+		Optional<User> user = userRepository.findByEmail(userSignInDTO.getEmail());
+		if (user.isPresent()) {
+			if (passwordEncoder.matches(userSignInDTO.getPassword(), user.get().getPassword())) {
+				String token = tokenProvider.createToken(String.format("%s:%s", user.get().getEmail(), "User"));
+				return new SignInResponse(user.get().getEmail(), "User", token, "로그인 성공");
+			}
+			return new SignInResponse(null, null, null, "비밀번호가 일치하지 않습니다");
+		}
+		return new SignInResponse(null, null, null, "존재하지 않는 이메일입니다");
 	}
 }
