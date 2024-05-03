@@ -27,9 +27,9 @@ public class TodoDTO {
                 .title(title)
                 .deadline(deadline)
                 .createdAt(createdAt)
-                .updatedAt(updatedAt)
-                .deleteYn(deleteYn)
-                .doneYn(doneYn)
+//                .updatedAt(null)
+//                .deleteYn(false)
+//                .doneYn(doneYn)
                 .user(user)
                 .category(category)
                 .build();

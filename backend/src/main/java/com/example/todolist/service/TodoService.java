@@ -5,13 +5,16 @@ import com.example.todolist.repository.CategoryRepository;
 import com.example.todolist.repository.TodoRepository;
 import com.example.todolist.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class TodoService {
 
     private final TodoRepository todoRepository;
@@ -20,14 +23,22 @@ public class TodoService {
 
 
     //전체 조회
+    // deleteYN이 false만 출력 -> 추가 필요
     public List<TodoDTO> getAllTodo(){
         List<Todo> list = todoRepository.findAll();
-        return list.stream().map(TodoDTO::new).collect(Collectors.toList());
+        List<Todo> result = new ArrayList<>();
+        for (Todo res : list) {
+            if (res.getDeleteYn() == false)
+                result.add(res);
+        }
+        return result.stream().map(TodoDTO::new).collect(Collectors.toList());
     }
 
     // id로 조회
     public TodoDTO getTodoById(Long id){
         Todo rtn = todoRepository.findById(id).orElseThrow();
+        if (rtn.getDeleteYn() == true)
+            return null;
         return new TodoDTO(rtn);
     }
 
@@ -47,6 +58,7 @@ public class TodoService {
     public TodoDTO updateTodo(Long id, TodoUpdateDTO params){
         Todo todo = todoRepository.findById(id).orElseThrow();
         todo.update(params.getTitle(), params.getDeadline(), params.getDeleteYn(), params.getDoneYn());
+        todoRepository.save(todo);
         return new TodoDTO(todo);
     }
 
@@ -54,11 +66,17 @@ public class TodoService {
     public void deleteTodo(Long id){
         Todo todo = todoRepository.findById(id).orElseThrow();
         todo.delete();
+        todoRepository.save(todo);
     }
 
     //todo 검색 (제목으로)
     public List<TodoDTO> findAllByTitle(String title){
-        List<Todo> list = todoRepository.findAllByTitleLike(title);
-        return list.stream().map(TodoDTO::new).collect(Collectors.toList());
+        List<Todo> list = todoRepository.findAllByTitleLike('%' + title + '%');
+        List<Todo> result = new ArrayList<>();
+        for (Todo res : list) {
+            if (res.getDeleteYn() == false)
+                result.add(res);
+        }
+        return result.stream().map(TodoDTO::new).collect(Collectors.toList());
     }
 }
