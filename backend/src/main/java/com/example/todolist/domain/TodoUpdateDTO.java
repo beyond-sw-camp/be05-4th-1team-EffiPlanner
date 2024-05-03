@@ -27,9 +27,9 @@ public class TodoUpdateDTO {
         return Todo.builder()
                 .title(this.title)
                 .deadline(this.deadline)
-                .updatedAt(this.updatedAt)
-                .deleteYn(this.deleteYn)
-                .doneYn(this.doneYn)
+//                .updatedAt(this.updatedAt)
+//                .deleteYn(this.deleteYn)
+//                .doneYn(this.doneYn)
                 .build();
     }
 

@@ -42,24 +42,28 @@ public class Todo {
     private Category category;
 
     @Builder
-    public Todo(Long id, String title, LocalDateTime deadline, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean deleteYn, Boolean doneYn, User user, Category category) {
+    public Todo(Long id, String title, LocalDateTime deadline, LocalDateTime createdAt, User user, Category category) {
         this.id = id;
         this.title = title;
         this.deadline = deadline;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.deleteYn = deleteYn;
-        this.doneYn = doneYn;
+        this.updatedAt = null;
+        this.deleteYn = false;
+        this.doneYn = false;
         this.user = user;
         this.category = category;
     }
 
     public void update(String title, LocalDateTime deadline, Boolean deleteYn, Boolean doneYn) {
-        this.title = title;
-        this.deadline = deadline;
+        if (title != null && !title.isEmpty())
+            this.title = title;
+        if (deadline != null && !deadline.isBefore(LocalDateTime.now()))
+            this.deadline = deadline;
+        if (deleteYn != null)
+            this.deleteYn = deleteYn;
+        if (doneYn != null)
+            this.doneYn = doneYn;
         this.updatedAt = LocalDateTime.now();
-        this.deleteYn = deleteYn;
-        this.doneYn = doneYn;
     }
 
     public void delete(){
