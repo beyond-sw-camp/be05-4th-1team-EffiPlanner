@@ -1,12 +1,12 @@
 package com.example.todolist.config;
 
+import java.util.Properties;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-
-import java.util.Properties;
 
 @Configuration
 public class EmailConfig {
@@ -42,8 +42,7 @@ public class EmailConfig {
     private int writeTimeout;
 
     @Bean
-    public JavaMailSender mailSender() {
-
+    public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(host);
         mailSender.setPort(port);
@@ -53,11 +52,9 @@ public class EmailConfig {
         mailSender.setJavaMailProperties(getMailProperties());
 
         return mailSender;
-
     }
 
     private Properties getMailProperties() {
-
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", auth);
         properties.put("mail.smtp.starttls.enable", starttlsEnable);
@@ -67,7 +64,6 @@ public class EmailConfig {
         properties.put("mail.smtp.writetimeout", writeTimeout);
 
         return properties;
-
     }
-
 }
+

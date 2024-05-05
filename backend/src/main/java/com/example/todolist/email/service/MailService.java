@@ -77,7 +77,7 @@ public class MailService {
         String title = "본인확인 인증 이메일 입니다.";
         String body = "";
         body += "<div style='margin:100px;'>";
-        body += "<h1> 안녕하세요 wePT 입니다. </h1>";
+        body += "<h1> 안녕하세요 이피 입니다. </h1>";
         body += "<br>";
         body += "<p>아래 코드를 회원가입 창으로 돌아가 입력해주세요<p>";
         body += "<br>";

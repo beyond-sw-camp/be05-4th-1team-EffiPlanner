@@ -37,7 +37,7 @@ public class SecurityConfig {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(Collections.singletonList("http://localhost:8081"));
+                config.setAllowedOrigins(Collections.singletonList("http://localhost:5173"));
                 config.setAllowedMethods(Collections.singletonList("*"));
                 config.setAllowCredentials(true);
                 config.setAllowedHeaders(Collections.singletonList("*"));
@@ -49,7 +49,12 @@ public class SecurityConfig {
             //.csrf(csrf -> csrf.ignoringRequestMatchers(PathRequest.toH2Console()))
             .headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
             .authorizeHttpRequests(requests ->
-                requests.requestMatchers(allowedUrls).permitAll()
+                requests.requestMatchers(
+                                "/api/auth/**",
+                                "/login",
+                                "/signup",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html").permitAll()
                     //.requestMatchers(PathRequest.toH2Console()).permitAll()
                     .anyRequest().authenticated()
             )

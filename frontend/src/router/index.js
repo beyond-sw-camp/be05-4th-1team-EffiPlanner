@@ -1,25 +1,30 @@
-// router/index.js
-import { createRouter, createWebHistory } from 'vue-router';
-import LoginView from '../views/LoginView.vue';
-import TodoListView from '../views/TodoListView.vue'
-
-
-const routes = [
-  {
-    path: '/',
-    name: 'Login',
-    component: LoginView
-  },
-  {
-    path: '/todo',
-    name: 'TodoListView',
-    component: TodoListView
-  },
-];
+import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: () => import('../views/HomeView.vue')
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue')
+    },
+    {
+      path: '/todo',
+      name: 'todo',
+      component: () => import('../views/TodoListView.vue')
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: () => import('../views/SignUpView.vue')
+    }
+
+  ]
 })
 
-export default router;
+export default router
