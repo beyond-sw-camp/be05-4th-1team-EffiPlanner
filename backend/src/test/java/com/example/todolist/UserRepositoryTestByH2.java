@@ -57,4 +57,24 @@ public class UserRepositoryTestByH2 {
         assertEquals(user.getUserNickname(), findUser.get().getUserNickname());
 
     }
+
+    @Test
+    void login() {
+        // given
+        User user = User.builder()
+                .email("user001@naver.com")
+                .userName("user001")
+                .userNickname("user1")
+                .password("1234")
+                .deleteYn(false)
+                .build();
+        userRepository.save(user);
+
+        // when
+        Optional<User> findUser = userRepository.findByEmail("user001@naver.com");
+        String givenPassword = "1234";
+
+        // then
+        assertEquals(findUser.get().getPassword(), givenPassword);
+    }
 }
