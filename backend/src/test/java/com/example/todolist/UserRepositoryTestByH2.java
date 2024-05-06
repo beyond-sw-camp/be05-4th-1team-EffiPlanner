@@ -73,8 +73,10 @@ public class UserRepositoryTestByH2 {
         // when
         Optional<User> findUser = userRepository.findByEmail("user001@naver.com");
         String givenPassword = "1234";
+        String givenEmail = "user001@naver.com";
 
         // then
+        assertEquals(findUser.get().getEmail(), givenEmail);
         assertEquals(findUser.get().getPassword(), givenPassword);
     }
 }

@@ -42,7 +42,7 @@ public class UserService {
 		User user = User.builder()
                 .email(userSignUpDTO.getEmail())
                 .userName(userSignUpDTO.getUsername())
-                .password(passwordEncoder.encode(userSignUpDTO.getPassword1())) // 비밀번호 암호화 필요
+                .password(passwordEncoder.encode(userSignUpDTO.getPassword1()))
                 .userNickname(userSignUpDTO.getUserNickname())
                 .deleteYn(false)
                 .build();
