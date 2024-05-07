@@ -3,17 +3,17 @@
         <h2>사용자 정보</h2>
         <div class="info-item">
             <label>아이디:</label>
-            <p>{{ userInfo.userId }}</p>
+            <p>{{ userInfo.email }}</p>
         </div>
         <div class="info-item">
             <label>이름:</label>
-            <p>{{ userInfo.name }}</p>
+            <p>{{ userInfo.username }}</p>
         </div>
         <div class="info-item">
-            <label>이메일:</label>
-            <p>{{ userInfo.email }}</p>
+            <label>닉네임:</label>
+            <p>{{ userInfo.userNickname}}</p>
         </div>
-        <button class="reset-password-btn" @click="showPwdResetModal = true">비밀번호 재설정</button>
+        <!-- <button class="reset-password-btn" @click="showPwdResetModal = true">비밀번호 재설정</button> -->
         <button class="delete-account-btn" @click="showDeleteModal = true">회원 탈퇴</button>
 
         <!-- 회원 탈퇴 모달 -->
@@ -87,7 +87,11 @@ export default {
         const fetchUserInfo = async () => {
             try {
                 const response = await axios.post('http://localhost:8080/api/auth/userinfo', {
-                    userId: localStorage.getItem('userId')
+                    userId: localStorage.getItem('email'),
+                    headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+          
                 });
                 emit('update:userInfo', response.data);
                 console.log("사용자 정보:", response.data);

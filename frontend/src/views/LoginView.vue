@@ -51,6 +51,7 @@ const login = async () => {
     localStorage.setItem('accessToken', accessToken.value)
     localStorage.setItem('email', email.value) // 이메일 저장
     localStorage.setItem('password', password.value) // 비밀번호 저장
+    localStorage.setItem('userNickname', response.data.userNickname)
     // localStorage.setItem('refreshToken', refreshToken.value)
 
     router.push({ name: "todo" })
