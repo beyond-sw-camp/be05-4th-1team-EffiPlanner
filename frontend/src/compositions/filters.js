@@ -17,7 +17,7 @@ export const useFilter = () => {
   const getPendingTodos = (todos) => {
     console.log('필터 : 오늘 해야 할 작업')
     return todos.value
-      .filter((todo) => todo.date < today && !todo.completed)
+      .filter((todo) => todo.deadline < today && !todo.doneYn)
       .slice()
       .sort(dateSort)
   }
@@ -26,7 +26,7 @@ export const useFilter = () => {
   const getActiveTodayTodos = (todos) => {
     console.log('필터 : 해야 할 작업')
     return todos.value
-      .filter((todo) => todo.date == today && !todo.completed)
+      .filter((todo) => todo.deadline == today && !todo.doneYn)
       .slice()
       .sort(dateSort)
   }
@@ -35,7 +35,7 @@ export const useFilter = () => {
   const getCompletedTodayTodos = (todos) => {
     console.log('필터 : 완료한 작업')
     return todos.value
-      .filter((todo) => todo.date == today && todo.completed)
+      .filter((todo) => todo.deadline == today && todo.doneYn)
       .slice()
       .sort(dateSort)
   }
@@ -53,6 +53,7 @@ export const useFilter = () => {
   }
 
   return {
+    dateSort,
     getPendingTodos,
     getActiveTodayTodos,
     getCompletedTodayTodos,

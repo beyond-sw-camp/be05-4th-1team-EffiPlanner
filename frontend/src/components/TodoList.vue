@@ -6,8 +6,8 @@
                   <input
                     type="checkbox"
                     class="form-check-input mt-0" 
-                    :checked="todo.completed" 
-                    :disabled="todo.completed" 
+                    :checked="todo.doneYn"
+                    :disabled="todo.doneYn"
                     @click="completeTodo(todo.id)"
                     >
               </div>
@@ -17,13 +17,13 @@
                     type="date"
                     :min="today"
                     disabled
-                    :value="todo.date"
+                    :value="formattedDeadline(todo.deadline)"
                   >
               </div>
               <input
                 type="text"
                 class="form-control"
-                :value="todo.job"
+                :value="todo.title"
               >
               <button class="btn btn-outline-primary dropdown-toggle"
                 type="button"
@@ -71,8 +71,17 @@ export default {
                 func: completeTodo,
             },
         ]
+
+      // 날짜 포맷 변환 함수
+      const formattedDeadline = (deadline) => {
+        const deadlineDate = new Date(deadline);
+        const offset = deadlineDate.getTimezoneOffset(); // 현재 시간대의 오프셋을 가져옴 (분 단위)
+        const deadlineDateUTC = new Date(deadlineDate.getTime() - offset * 60000); // UTC 시간으로 변환
+
+        return deadlineDateUTC.toISOString().slice(0, 10); // "YYYY-MM-DD" 형식으로 반환
+      }
         return {
-            menu, today, completeTodo
+            menu, today, completeTodo, formattedDeadline
         }
     }
 }

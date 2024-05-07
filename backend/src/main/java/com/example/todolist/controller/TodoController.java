@@ -55,6 +55,15 @@ public class TodoController {
         return ResponseEntity.ok(null);
     }
 
+    // todo 완료 doneYN -> true로
+    @PostMapping("/done/{todoId}")
+    public ResponseEntity<TodoDTO> doneTodo(@PathVariable("todoId") String todoId){
+        TodoDTO todoDTO = todoService.getTodoById(Long.parseLong(todoId));
+        TodoUpdateDTO updateDTO = new TodoUpdateDTO(todoDTO.getTitle(), todoDTO.getDeadline(), todoDTO.getUpdatedAt(), todoDTO.getDeleteYn(), true);
+        todoService.updateTodo(Long.parseLong(todoId), updateDTO);
+        return ResponseEntity.ok(null);
+    }
+
     // todo 검색 (제목으로)
     @GetMapping("/find/{todoTitle}")
     public  ResponseEntity<List<TodoDTO>> findTodo(@PathVariable("todoTitle") String todoTitle){

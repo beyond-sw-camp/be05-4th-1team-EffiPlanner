@@ -13,7 +13,7 @@
 <script>
 import { defineComponent, inject, ref } from 'vue';
 import TodoListContainer from '../components/TodoListContainer.vue';
-import Header from '../components/Header.vue'; 
+import Header from '../components/Header.vue';
 
 export default defineComponent({
   name: 'TodoListView',
