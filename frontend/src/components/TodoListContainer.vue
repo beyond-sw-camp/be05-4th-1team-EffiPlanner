@@ -2,7 +2,7 @@
     <todo-list-new />
     <section class="container">
         <div class="row justify-content-center m-2">
-            <todo-list-main/>
+            <todo-list-main />
         </div>
     </section>
 </template>
@@ -14,13 +14,13 @@ import TodoListNew from './TodoListNew.vue'
 import TodoListMain from './TodoListMain.vue'
 
 export default {
-    name : 'TodoListContainer',
+    name: 'TodoListContainer',
 
     components: {
         TodoListNew,
-        TodoListMain 
+        TodoListMain
     },
-    
+
     setup() {
         const todos = ref([]);
 
@@ -36,7 +36,15 @@ export default {
         // 할 일 추가 함수
         const addTodo = async (todo) => {
             try {
-                const newTodo = await addNewTodo(todo);
+                const newTodo = await addNewTodo({
+                    ...todo,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    deleteYn: false,
+                    doneYn: false,
+                    userId: '',
+                    categoryId: ''
+                });
                 todos.value.push(newTodo);
             } catch (error) {
                 console.error('할 일 추가하던 중 에러 발생:', error)
@@ -46,7 +54,10 @@ export default {
         // 할 일 업데이트 함수
         const updateExistingTodo = async (id, updatedTodo) => {
             try {
-                const updated = await updateTodo(id, updatedTodo);
+                const updated = await updateTodo(id, {
+                    ...updatedTodo,
+                    updatedAt: new Date()
+                });
                 const index = todos.value.findIndex(todo => todo.id === id);
                 if (index !== -1) {
                     todos.value[index] = updated;
@@ -83,5 +94,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>
