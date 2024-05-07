@@ -25,18 +25,29 @@ export default {
     setup() {
         const todos = ref([]);
 
-        // 유저 ID 설정
-        const userId = 1 ;  // 로그인된 사용자의 ID
+        // // 유저 ID 설정
+        // const userId = 1 ;  // 로그인된 사용자의 ID
+
+
 
         // 할 일 목록 불러오기
         const loadTodos = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/api/todo/all');
-                todos.value = response.data;
-            } catch (error) {
+          try {
+            const accessToken = localStorage.getItem('accessToken');
+            console.log("accessToken:", accessToken);
+
+            const response = await axios.get('http://localhost:8080/api/todo/all',{
+              headers: {
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+            todos.value = response.data;
+          } catch (error) {
                 console.error('할 일 목록 불러오는 중 에러 발생:', error);
             }
         };
+
+
 
         // 할 일 추가 함수
         const addTodo = async (todo) => {
@@ -48,9 +59,15 @@ export default {
                     updatedAt: new Date(),
                     deleteYn: false,
                     doneYn: false,
-                    userId: userId,  // 사용자 ID 전달
+                    email: todo.email ,
                     categoryId: todo.categoryId // 선택한 카테고리 ID 전달
-                });
+                }, {
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                  }
+                    }
+                );
                 todos.value.push(response.data);
             } catch (error) {
                 console.error('할 일 추가하던 중 에러 발생:', error);
@@ -63,6 +80,11 @@ export default {
                 const response = await axios.put(`http://localhost:8080/api/todo/update/${id}`, {
                     ...updatedTodo,
                     updatedAt: new Date().toISOString(),
+                },{
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                  }
                 });
                 const index = todos.value.findIndex(todo => todo.id === id);
                 if (index !== -1) {
@@ -76,7 +98,13 @@ export default {
         // 할 일 삭제 함수
         const deleteExistingTodo = async (id) => {
             try {
-                await axios.delete(`http://localhost:8080/api/todo/delete/${id}`);
+                await axios.delete(`http://localhost:8080/api/todo/delete/${id}`,
+                    {
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                      }
+                    });
                 const index = todos.value.findIndex(todo => todo.id === id);
                 if (index !== -1) {
                     todos.value.splice(index, 1);
