@@ -80,6 +80,11 @@ export default {
                 const response = await axios.put(`http://localhost:8080/api/todo/update/${id}`, {
                     ...updatedTodo,
                     updatedAt: new Date().toISOString(),
+                },{
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                  }
                 });
                 const index = todos.value.findIndex(todo => todo.id === id);
                 if (index !== -1) {
@@ -93,7 +98,13 @@ export default {
         // 할 일 삭제 함수
         const deleteExistingTodo = async (id) => {
             try {
-                await axios.delete(`http://localhost:8080/api/todo/delete/${id}`);
+                await axios.delete(`http://localhost:8080/api/todo/delete/${id}`,
+                    {
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                      }
+                    });
                 const index = todos.value.findIndex(todo => todo.id === id);
                 if (index !== -1) {
                     todos.value.splice(index, 1);
