@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="logo-container">
-      <p class="logo_txt">Effi Planner</p>
+      <router-link :to="{ name: 'todo'}" class="logo_txt">Effi Planner</router-link>
       <div class="underline"></div>
     </div>
     <div class="user-info">
@@ -23,6 +23,9 @@ const logout = () => {
   // 로그아웃 처리 로직
   // 예를 들어, 로컬 스토리지에서 토큰 삭제 등
   localStorage.removeItem('accessToken');
+  localStorage.removeItem('email');
+  localStorage.removeItem('password');  
+  localStorage.removeItem('userNickname');
   // 홈 화면으로 이동
   router.push({ name: 'home' });
 };
