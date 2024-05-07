@@ -53,6 +53,7 @@ export const useFilter = () => {
   }
 
   return {
+    dateSort,
     getPendingTodos,
     getActiveTodayTodos,
     getCompletedTodayTodos,

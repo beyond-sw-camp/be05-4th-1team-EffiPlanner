@@ -6,8 +6,8 @@
                   <input
                     type="checkbox"
                     class="form-check-input mt-0" 
-                    :checked="todo.done"
-                    :disabled="todo.done"
+                    :checked="todo.doneYn"
+                    :disabled="todo.doneYn"
                     @click="completeTodo(todo.id)"
                     >
               </div>

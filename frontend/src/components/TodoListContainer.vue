@@ -111,14 +111,37 @@ export default {
         } catch (error) {
           console.error('할 일 삭제 중 에러 발생:', error);
         }
-      }
+      };
 
-        provide('todos', todos);
+      // 할 일 완료 함수
+      const completeTodo = async (id) => {
+        try {
+          await axios.post(
+              `http://localhost:8080/api/todo/done/${id}`,
+              {doneYn: true},
+              {
+                headers: {
+                  'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                }
+              }
+          );
+          console.log('할 일이 성공적으로 완료로 표시되었습니다.');
+          // 필요한 경우, 완료된 Todo를 UI에서 숨기거나 갱신할 수 있습니다.
+          // 예: this.fetchTodoList(); // Todo 목록 다시 불러오기
+        } catch (error) {
+          console.error('할 일 완료 중 에러 발생:', error);
+        }
+      };
+
+
+      provide('todos', todos);
         provide('addTodo', addTodo);
         provide('updatedTodo', updatedTodo);
         provide('removeTodo', removeTodo);
+      provide('completeTodo', completeTodo);
 
-        loadTodos();
+
+      loadTodos();
 
         return {
             todos
