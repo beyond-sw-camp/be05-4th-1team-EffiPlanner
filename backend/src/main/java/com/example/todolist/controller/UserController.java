@@ -30,6 +30,15 @@ public class UserController {
 		return new ResponseEntity<>(msg, HttpStatus.OK);
 	}
 
+	@GetMapping("/emailcheck")
+	public ResponseEntity<List<String>> emailCheck(@RequestParam String email) {
+		List<String> msg = userService.emailCheck(email);
+		if(msg.get(0).equals("이미 가입되어 있는 이메일 입니다.")){
+			return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(msg, HttpStatus.OK);
+	}
+
 	@PostMapping("/signin")
 	public ResponseEntity<SignInResponse> signIn(@RequestBody UserSignInDTO userSignInDTO) {
 		SignInResponse msg = userService.signIn(userSignInDTO);

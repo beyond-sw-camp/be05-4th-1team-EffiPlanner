@@ -64,4 +64,14 @@ public class UserService {
 		return new SignInResponse(null, null, null, "존재하지 않는 이메일입니다");
 	}
 
+	public List<String> emailCheck(String email) {
+		List<String> msg = new ArrayList<>();
+		if (userRepository.existsByEmail(email)) {
+			msg.add("이미 가입되어 있는 이메일 입니다.");
+		} else {
+			msg.add("사용 가능한 이메일 입니다.");
+		}
+		return msg;
+	}
+
 }
