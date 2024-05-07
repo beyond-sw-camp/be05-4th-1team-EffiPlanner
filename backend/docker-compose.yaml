@@ -1,0 +1,29 @@
+version: "3"
+services:
+  app:
+    container_name: work-container
+    build: .
+    depends_on:
+      - database
+    ports:
+      - "5713:5173"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/encore?useUnicode=true
+      SPRING_DATASOURCE_USERNAME: work_user
+      SPRING_DATASOURCE_PASSWORD: work_passwd
+    restart: always
+    links:
+      - database
+    # platform: linux/arm64
+  database:
+    image: mariadb:10.6.16
+    container_name: workdb-container
+    environment:
+      MARIADB_ROOT_PASSWORD: 1234
+      MARIADB_USER: work_user
+      MARIADB_PASSWORD: work_passwd
+      MARIADB_DATABASE: encore
+    volumes:
+      - ./src/main/resources/db_config/initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "6033:3306"
