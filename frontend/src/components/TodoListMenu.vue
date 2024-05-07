@@ -28,15 +28,12 @@ import { ref, watch, computed, inject } from 'vue'
 export default {
     name: 'TodoListMenu',
 
-    // watch에서 emit을 사용하기 전에 이벤트 명을 선언해줘야 한다.
     emits: ['change-filter'],
     
     setup(props, context) {
         const filters = inject('filters')
         const filter = ref(0)
-        const state = computed(() =>{
-            return filters[filter.value].str
-        })
+        const state = computed(() => filters[filter.value].str)
         watch(
             () => filter.value,
             (filter) => {
@@ -52,5 +49,4 @@ export default {
 </script>
 
 <style>
-
 </style>

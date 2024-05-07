@@ -35,12 +35,12 @@
 </template>
 
 <script>
-import { reactive, toRefs, inject, ref } from 'vue'
+import { reactive, toRefs, inject } from 'vue'
 
 export default {
     name: 'TodoListNew',
     setup() {
-        const today = inject('today');  // 오늘 날짜를 알아야 이전 날짜 입력을 방지할 수 있음
+        const today = inject('today');  
         const addTodo = inject('addTodo');
         const val_obj = reactive({
             job: '',
@@ -49,8 +49,8 @@ export default {
         })
 
         const onAddTodo = () => {
-            if (val_obj.job.length > 0){
-                addTodo(val_obj.job, val_obj.date)
+            if (val_obj.job.length > 0) {
+                addTodo({ title: val_obj.job, deadline: val_obj.date });
                 val_obj.job = '';
                 val_obj.date = today;
             }
@@ -59,12 +59,10 @@ export default {
         return {
             ...toRefs(val_obj),
             onAddTodo,
-            ref
         }
     },
 }
 </script>
 
 <style>
-
 </style>
