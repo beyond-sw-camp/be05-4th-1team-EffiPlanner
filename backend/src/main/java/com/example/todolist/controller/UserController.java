@@ -64,11 +64,10 @@ public class UserController {
 	@GetMapping("/userinfo")
 	public ResponseEntity<User> userInfo(@RequestParam String email) {
 		User user = userService.userInfo(email);
-		if (user.getEmail().equals(email)){ 
+		if (user.getEmail().equals(email)){
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
-	
 }
