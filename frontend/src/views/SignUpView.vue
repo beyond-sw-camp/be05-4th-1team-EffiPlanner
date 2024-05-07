@@ -2,10 +2,10 @@
   <div class="container" style="background-color: #ffffff;">
     <!-- 이미지 삽입 -->
     <a href="/">
-      <p class="logo_txt" style="color: black;">에피</p>
+      <p class="logo_txt" style="color: black; font-size: 36px; font-weight: bold; text-align: center;">Effi Planner</p>
     </a>
     <div class="signup-container" style="background-color: #3B85CE;">
-      <div style="display: flex; align-items: center;"> <!-- 수정된 부분 -->
+      <div style="display: flex; align-items: center;"> 
         <!-- 이메일 입력 -->
         <div style="width: calc(70% - 5px); margin-right: 5px">
           <label style="color: white;">이메일</label>
@@ -13,7 +13,7 @@
           <input type="email" v-model="email" placeholder="이메일을 입력해주세요." style="color: #3B85CE; background-color: #ffffff; width: calc(100% - 16px); margin-bottom: 10px; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
         </div>
         <!-- 중복 확인 버튼 -->
-        <div style="width: calc(30% - 5px); margin-left: 5px"> <!-- 수정된 부분 -->
+        <div style="width: calc(30% - 5px); margin-left: 5px"> 
           <button @click="checkDuplicateEmail" style="background-color: #013B7A; color: white; width: 100%; margin-bottom: 20px; padding: 8px; border-radius: 5px; border: none; cursor: pointer;">중복 확인</button>
         </div>
       </div>
@@ -162,5 +162,8 @@ export default {
 .logo_txt {
   width: 200px; /* 로고 텍스트의 너비를 조정합니다. */
   height: auto; /* 높이 자동 조정 */
+  font-size: 36px; /* 폰트 크기를 36px로 설정합니다. */
+  font-weight: bold; /* 폰트를 굵게 설정합니다. */
+  text-align: center; /* 가운데 정렬합니다. */
 }
 </style>
