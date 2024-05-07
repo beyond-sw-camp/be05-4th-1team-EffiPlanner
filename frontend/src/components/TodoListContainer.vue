@@ -135,9 +135,9 @@ export default {
 
 
       provide('todos', todos);
-        provide('addTodo', addTodo);
-        provide('updatedTodo', updatedTodo);
-        provide('removeTodo', removeTodo);
+      provide('addTodo', addTodo);
+      provide('updatedTodo', updatedTodo);
+      provide('removeTodo', removeTodo);
       provide('completeTodo', completeTodo);
 
 

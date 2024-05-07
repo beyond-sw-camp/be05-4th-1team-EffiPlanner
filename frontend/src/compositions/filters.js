@@ -13,32 +13,46 @@ export const useFilter = () => {
     else return a.id - b.id
   }
 
-  // 날짜가 지났지만 완료 못한 작업
+// 날짜가 지났지만 완료 못한 작업
   const getPendingTodos = (todos) => {
     console.log('필터 : 오늘 해야 할 작업')
     return todos.value
-      .filter((todo) => todo.deadline < today && !todo.doneYn)
-      .slice()
-      .sort(dateSort)
+        .filter((todo) => {
+          const deadlineDate = new Date(todo.deadline.split('T')[0])
+          const deadlineDateString = deadlineDate.toISOString().split('T')[0];
+          return deadlineDateString < today && !todo.doneYn
+        })
+        .slice()
+        .sort(dateSort)
   }
 
   // 해야 할 작업
   const getActiveTodayTodos = (todos) => {
     console.log('필터 : 해야 할 작업')
     return todos.value
-      .filter((todo) => todo.deadline == today && !todo.doneYn)
-      .slice()
-      .sort(dateSort)
+        .filter((todo) => {
+          const deadlineDate = new Date(todo.deadline.split('T')[0])
+          const deadlineDateString = deadlineDate.toISOString().split('T')[0];
+          return deadlineDateString == today && !todo.doneYn
+        })
+        .slice()
+        .sort(dateSort)
+
   }
 
   // 완료한 작업
   const getCompletedTodayTodos = (todos) => {
     console.log('필터 : 완료한 작업')
     return todos.value
-      .filter((todo) => todo.deadline == today && todo.doneYn)
-      .slice()
-      .sort(dateSort)
+        .filter((todo) => {
+          const deadlineDate = new Date(todo.deadline.split('T')[0])
+          const deadlineDateString = deadlineDate.toISOString().split('T')[0];
+          return deadlineDateString == today && todo.doneYn;
+        })
+        .slice()
+        .sort(dateSort)
   }
+
 
   // 오늘의 모든 기록
   const getAllTodayTodos = (todos) => {
