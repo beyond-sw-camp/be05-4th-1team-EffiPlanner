@@ -1,121 +1,100 @@
 <template>
-    <div class="user-info">
+  <div>
+    <Header />
+    <div class="user-info-container">
+      <br>
+      <div class="user-info">
         <h2>사용자 정보</h2>
         <div class="info-item">
-            <label>아이디:</label>
-            <p>{{ userInfo.email }}</p>
+          <label>아이디:</label>
+          <p>{{ userInfo.email }}</p>
         </div>
         <div class="info-item">
-            <label>이름:</label>
-            <p>{{ userInfo.username }}</p>
+          <label>이름:</label>
+          <p>{{ userInfo.username }}</p>
         </div>
         <div class="info-item">
-            <label>닉네임:</label>
-            <p>{{ userInfo.userNickname}}</p>
+          <label>닉네임:</label>
+          <p>{{ userInfo.userNickname }}</p>
         </div>
         <!-- <button class="reset-password-btn" @click="showPwdResetModal = true">비밀번호 재설정</button> -->
         <button class="delete-account-btn" @click="showDeleteModal = true">회원 탈퇴</button>
 
         <!-- 회원 탈퇴 모달 -->
         <div v-if="showDeleteModal" class="modal">
-            <div class="modal-content">
-                <h2>회원 탈퇴</h2>
-                <h6>확인을 위해 비밀번호를 다시 한 번 입력해주세요</h6>
-                <br />
-                <input v-model="password" type="password" placeholder="비밀번호">
-                <div class="button-container">
-                    <button class="cancel-btn" @click="cancelDeletion">취소</button>
-                    <button class="delete-btn" @click="deleteAccount">회원 탈퇴</button>
-                </div>
+          <div class="modal-content">
+            <h2>회원 탈퇴</h2>
+            <h6>확인을 위해 비밀번호를 다시 한 번 입력해주세요</h6>
+            <br />
+            <input v-model="password" type="password" placeholder="비밀번호">
+            <div class="button-container">
+              <button class="cancel-btn" @click="cancelDeletion">취소</button>
+              <button class="delete-btn" @click="deleteAccount">회원 탈퇴</button>
             </div>
+          </div>
         </div>
-
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import axios from 'axios'
+import Header from '../components/Header.vue';
+import { ref, reactive } from 'vue';
+import axios from 'axios';
 
 export default {
-    name: 'UserInfo',
+  name: 'UserInfo',
+  components: {
+    Header
+  },
+  setup() {
+    const showDeleteModal = ref(false);
+    const password = ref('');
+    const userInfo = reactive({
+      email: '',
+      username: '',
+      userNickname: ''
+    });
 
-    props: {
-        userInfo: {
-            type: Object,
-            required: true
-        }
-    },
+    const deleteAccount = async () => {
+      // 회원 탈퇴 로직...
+    };
 
-    setup(props, { emit }) {
-        const router = useRouter();
-        const showDeleteModal = ref(false);
-        const password = ref('');
-        const email = ref('');
+    const cancelDeletion = () => {
+      showDeleteModal.value = false;
+    };
 
-        const resetResult = ref('');
-
-        const deleteAccount = async () => {
-            try {
-                const response = await axios.delete('http://localhost:8080/api/auth/signout', {
-                    data: {
-                        userId: localStorage.getItem('userId'),
-                        password1: password.value,
-                    }
-                });
-                if (response.status === 200) {
-                    console.log('회원 탈퇴 성공:', response.data);
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('userId');
-                    alert('회원 탈퇴가 완료되었습니다.');
-                    router.push('/');
-                } else {
-                    console.log('회원 탈퇴 실패', response.data);
-                    alert('회원 탈퇴에 실패했습니다.');
-                }
-            } catch (error) {
-                console.error('회원 탈퇴 오류:', error);
-            }
-            showDeleteModal.value = false;
-        };
-
-        const cancelDeletion = () => {
-            showDeleteModal.value = false;
-        };
-
-        const fetchUserInfo = async () => {
-            try {
-                const response = await axios.post('http://localhost:8080/api/auth/userinfo', {
-                    userId: localStorage.getItem('email'),
-                    headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-          
-                });
-                emit('update:userInfo', response.data);
-                console.log("사용자 정보:", response.data);
-            } catch (error) {
-                console.error('사용자 정보 불러오기 실패:', error);
-            }
-        };
-
-        onMounted(() => {
-            fetchUserInfo();
+    const fetchUserInfo = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/auth/userinfo', {
+          params: {
+            email: localStorage.getItem('email') // 현재 사용자의 이메일
+          },
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+          }
         });
-
-        return {
-            showDeleteModal,
-
-            password,
-            email,
-            resetResult,
-            deleteAccount,
-            cancelDeletion,
+        if (response.status === 200) {
+          userInfo.email = response.data.email;
+          userInfo.username = response.data.username;
+          userInfo.userNickname = response.data.userNickname;
+        } else {
+          console.error('사용자 정보 불러오기 실패:', response);
         }
-    }
+      } catch (error) {
+        console.error('사용자 정보 불러오기 실패:', error);
+      }
+    };
+
+
+    fetchUserInfo();
+
+    return { showDeleteModal, password, userInfo, deleteAccount, cancelDeletion };
+  }
 }
 </script>
+
 
 <style scoped>
 .user-info {
@@ -149,12 +128,12 @@ button {
 }
 
 .reset-password-btn {
-    background-color: #007bff;
+    background-color: #013B7A;
     color: #fff;
 }
 
 .delete-account-btn {
-    background-color: #dc3545;
+    background-color: #3B85CE;
     color: #fff;
 }
 
@@ -212,12 +191,12 @@ button {
 }
 
 .cancel-btn {
-    background-color: #dc3545;
+    background-color: #3B85CE;
     color: #fff;
 }
 
 .delete-btn {
-    background-color: #007bff;
+    background-color: #013B7A;
     color: #fff;
 }
 
