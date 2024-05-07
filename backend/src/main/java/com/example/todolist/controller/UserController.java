@@ -47,7 +47,10 @@ public class UserController {
 	@PostMapping("/signin")
 	public ResponseEntity<SignInResponse> signIn(@RequestBody UserSignInDTO userSignInDTO) {
 		SignInResponse msg = userService.signIn(userSignInDTO);
-		return new ResponseEntity<>(msg, HttpStatus.OK);
+		if(msg.email().equals(userSignInDTO.getEmail())){
+			return new ResponseEntity<>(msg, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
 	}
 
 	@PreAuthorize("hasAuthority('User')")
