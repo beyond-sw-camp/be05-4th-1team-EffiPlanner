@@ -39,7 +39,7 @@
       <br>
       <!-- 닉네임 입력 -->
       <p style="color: white;">닉네임</p>
-      <input type="text" v-model="nickname" placeholder="닉네임을 입력해주세요." style="background-color: #ffffff; color: #3B85CE; width: calc(100% - 16px); margin-bottom: 10px; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+      <input type="text" v-model="userNickname" placeholder="닉네임을 입력해주세요." style="background-color: #ffffff; color: #3B85CE; width: calc(100% - 16px); margin-bottom: 10px; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
       <br>
       <!-- 회원가입 버튼 -->
       <button @click="signUp" style="background-color: #013B7A; color: white; width: calc(100% - 16px); margin-bottom: 10px; padding: 8px; border-radius: 5px; border: none; cursor: pointer;">가입 완료</button>
@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       email: '',
-      nickname: '',
+      userNickname: '',
       username: '',
       password1: '',
       password2: '',
@@ -67,7 +67,8 @@ export default {
       try {
         const response = await axios.post("http://localhost:8080/api/auth/signup", {
           email: this.email,
-          nickname: this.nickname,
+          userNickname: this.userNickname,
+          username: this.username,
           password1: this.password1,
           password2: this.password2
         });
@@ -88,7 +89,7 @@ export default {
     },
     async sendAuthEmail() {
       try {
-        const response = await axios.post("http://localhost:8080/user/auth/send", {
+        const response = await axios.post("http://localhost:8080/api/auth/send", {
           email: this.email
         });
         // 이메일 인증이 성공했다는 메시지를 알립니다.
@@ -115,7 +116,7 @@ export default {
     },
     async checkEmailVerification() {
       try {
-        const response = await axios.post("http://localhost:8080/user/auth/check", {
+        const response = await axios.post("http://localhost:8080/api/auth/check", {
           email: this.email,
           authCode: this.verificationCode
         });

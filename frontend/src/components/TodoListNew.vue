@@ -8,7 +8,13 @@
                         <div class="col-6">
                             <input type="date" v-model="date" :min="today" class="form-control">
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
+                            <select v-model="categoryId" class="form-select" aria-label="카테고리 선택">
+                                <option disabled value="">카테고리 선택</option>
+                                <option v-for="category in categories" :key="category.category_id" :value="category.category_id">{{ category.category_name }}</option>
+                            </select>
+                        </div>
+                        <div class="col-2">
                             <button type="button" class="btn btn-primary btn-sm rounded float-end" @click="onAddTodo">
                                 추가하기
                             </button>
@@ -33,9 +39,15 @@ export default {
             job: '',
             date: today,
             today,
-            userId: '', // 유효한 userId?
-            categoryId: '' // 유효한 categoryId??
-        })
+            categoryId: '' 
+        });
+
+        const categories = [
+            { category_id: 1, category_name: '업무' },
+            { category_id: 2, category_name: '개인' },
+            { category_id: 3, category_name: '긴급' },
+            { category_id: 4, category_name: '기타' },
+        ]; // 카테고리 목록을 가져와야 함
 
         const onAddTodo = async () => {
             if (state.job.trim().length === 0) {
@@ -61,14 +73,15 @@ export default {
             } catch (error) {
                 console.error('Error adding new todo:', error);
             }
-        }
+        };
 
         return {
             ...toRefs(state),
+            categories,
             onAddTodo,
-        }
+        };
     },
-}
+};
 </script>
 
 <style></style>

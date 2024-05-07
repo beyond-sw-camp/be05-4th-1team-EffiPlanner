@@ -25,7 +25,9 @@ export default {
     setup() {
         const todos = ref([]);
 
-        
+        // 유저 ID 설정
+        const userId = 1 ;  // 로그인된 사용자의 ID
+
         // 할 일 목록 불러오기
         const loadTodos = async () => {
             try {
@@ -46,8 +48,8 @@ export default {
                     updatedAt: new Date(),
                     deleteYn: false,
                     doneYn: false,
-                    userId: 1,  // 유효한 userId??
-                    categoryId: 1  // 유효한 categoryId??
+                    userId: userId,  // 사용자 ID 전달
+                    categoryId: todo.categoryId // 선택한 카테고리 ID 전달
                 });
                 todos.value.push(response.data);
             } catch (error) {
