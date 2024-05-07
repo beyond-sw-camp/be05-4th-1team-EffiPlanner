@@ -93,4 +93,15 @@ public class UserService {
 		return "존재하지 않는 이메일입니다";
 	}
 
+	public User userInfo(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
+		User returnUser = User.builder()
+								.email(user.get().getEmail())
+								.userName(user.get().getUserName())
+								.userNickname(user.get().getUserNickname())
+								.deleteYn(user.get().getDeleteYn())
+								.build();
+		return returnUser;
+	}
+
 }

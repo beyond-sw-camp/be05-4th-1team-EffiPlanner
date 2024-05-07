@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/todo")
-//@PreAuthorize("hasAuthority('User')")
+@PreAuthorize("hasAuthority('User')")
 public class TodoController {
 
     private final TodoService todoService;

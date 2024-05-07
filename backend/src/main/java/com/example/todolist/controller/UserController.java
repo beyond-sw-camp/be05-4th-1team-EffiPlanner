@@ -4,14 +4,19 @@ import java.util.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.todolist.domain.SignInResponse;
+import com.example.todolist.domain.User;
 import com.example.todolist.domain.UserSignInDTO;
 import com.example.todolist.domain.UserSignUpDTO;
 import com.example.todolist.service.UserService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -45,6 +50,7 @@ public class UserController {
 		return new ResponseEntity<>(msg, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasAuthority('User')")
 	@DeleteMapping("/signout")
 	public ResponseEntity<String> signOut(@RequestBody UserSignInDTO userSignInDTO) {
 		String msg = userService.signOut(userSignInDTO);
@@ -53,4 +59,16 @@ public class UserController {
 		}
 		return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
 	}
+
+	@PreAuthorize("hasAuthority('User')")
+	@GetMapping("/userinfo")
+	public ResponseEntity<User> userInfo(@RequestParam String email) {
+		User user = userService.userInfo(email);
+		if (user.getEmail().equals(email)){ 
+			return new ResponseEntity<>(user, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 }

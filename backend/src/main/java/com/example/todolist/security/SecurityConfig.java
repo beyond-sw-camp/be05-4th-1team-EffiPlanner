@@ -50,14 +50,14 @@ public class SecurityConfig {
             .headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
             .authorizeHttpRequests(requests ->
                 requests.requestMatchers(
-                                "/api/auth/**",
-                                "/login",
-                                "/signup",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/user/auth/**",
-                                "/user/auth/send",
-                                "/user/auth/check").permitAll()
+
+                                "/api/auth/signin",
+                                "/api/auth/signup",
+                                "/api/auth/emailcheck",
+                                "/api/auth/check",
+                                "/api/auth/send",
+                                "/swagger-ui.html").permitAll()
+
                     //.requestMatchers(PathRequest.toH2Console()).permitAll()
                     .anyRequest().authenticated()
             )
