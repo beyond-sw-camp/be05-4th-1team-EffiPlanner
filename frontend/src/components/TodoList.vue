@@ -80,6 +80,8 @@ export default {
 
         return deadlineDateUTC.toISOString().slice(0, 10); // "YYYY-MM-DD" 형식으로 반환
       }
+
+
         return {
             menu, today, completeTodo, formattedDeadline
         }

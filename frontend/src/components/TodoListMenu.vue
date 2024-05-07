@@ -1,4 +1,3 @@
-todolistmenu.vue
 
 <template>
   <div class="row">

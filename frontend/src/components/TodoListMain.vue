@@ -1,15 +1,5 @@
 <template>
   <div>
-    <input
-      class="form-control"
-      type="text"
-      v-model="search"
-      placeholder="검색"
-    />
-    <hr>
-  </div>
-
-  <div>
     <todo-list-menu v-on:change-filter="onChangeFilter" class="p-0"/>
     <div v-for="key in Object.keys(filtered_todos)" :key="key" class="mb-3">
       <div v-if="use_category">
@@ -28,7 +18,7 @@
 </template>
 
 <script>
-import { ref, provide, inject, watch, computed } from 'vue'
+import { ref, provide, inject, watch } from 'vue'
 import { useFilter } from '../compositions/filters'
 
 import TodoList from './TodoList.vue'
@@ -102,15 +92,7 @@ export default {
       { immediate: true }
     )
 
-    const filterTodolist = computed(() => {
-      if (search.value) {
-        return todos.value.filter((tmp) => {
-          return tmp.sbj.includes(search.value);
-        });
-      } else {
-        return todos.value;
-      }
-    });
+
 
     return {
       filter, 
@@ -118,7 +100,6 @@ export default {
       filtered_todos, 
       use_category, 
       onChangeFilter,
-      filterTodolist,
       search,
     }
   },
