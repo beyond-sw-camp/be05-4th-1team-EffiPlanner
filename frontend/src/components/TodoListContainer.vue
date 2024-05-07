@@ -25,18 +25,29 @@ export default {
     setup() {
         const todos = ref([]);
 
-        // 유저 ID 설정
-        const userId = 1 ;  // 로그인된 사용자의 ID
+        // // 유저 ID 설정
+        // const userId = 1 ;  // 로그인된 사용자의 ID
+
+
 
         // 할 일 목록 불러오기
         const loadTodos = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/api/todo/all');
-                todos.value = response.data;
-            } catch (error) {
+          try {
+            const accessToken = localStorage.getItem('accessToken');
+            console.log("accessToken:", accessToken);
+
+            const response = await axios.get('http://localhost:8080/api/todo/all',{
+              headers: {
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+            todos.value = response.data;
+          } catch (error) {
                 console.error('할 일 목록 불러오는 중 에러 발생:', error);
             }
         };
+
+
 
         // 할 일 추가 함수
         const addTodo = async (todo) => {
@@ -48,7 +59,7 @@ export default {
                     updatedAt: new Date(),
                     deleteYn: false,
                     doneYn: false,
-                    userId: userId,  // 사용자 ID 전달
+                    userEmail: todo.userEmail ,
                     categoryId: todo.categoryId // 선택한 카테고리 ID 전달
                 });
                 todos.value.push(response.data);

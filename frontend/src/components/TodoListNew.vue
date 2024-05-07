@@ -39,6 +39,7 @@ export default {
             job: '',
             date: today,
             today,
+            userEmail: '',
             categoryId: '' 
         });
 
@@ -62,7 +63,7 @@ export default {
                 updatedAt: new Date(),
                 deleteYn: false,
                 doneYn: false,
-                userId: state.userId,
+                userEmail: state.userEmail,
                 categoryId: state.categoryId,
             };
 
