@@ -45,7 +45,7 @@ const login = async () => {
       password: password.value
     })
     console.log(response.data)
-    accessToken.value = response.data.accessToken
+    accessToken.value = response.data.token
     // refreshToken.value = response.data.refreshToken
 
     localStorage.setItem('accessToken', accessToken.value)
