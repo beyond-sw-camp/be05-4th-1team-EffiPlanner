@@ -2,14 +2,13 @@
 
 "**Effi**"는 "**Efficiency**"의 줄임말로, 효율성을 강조하는 단어입니다.<br/>
 "**Planner**"는 일정계획을 나타냅니다.<br/>
-따라서 이 프로잭트명은 업무 효울성을 높이기 위한 일정 계획 시스템을 의미합니다.<br/>
+**EffiPlanner**는 업무 효율성을 높이기 위한 일정 계획 시스템을 의미합니다.<br/>
 
 ### 프로젝트 소개
 1. EffiPlanner : 일정 관리를 위한 서비스<br/>
 2. 기능<br/>
   2-1. 회원가입 및 로그인<br/>
   2-2. 일정 추가, 수정, 삭제 기능<br/>
-  2-3. 완료 여부에 따른 일정 분류 기능<br/>
 
 ### 기술 스택
 
@@ -40,10 +39,48 @@
 
 [DB 설계](https://www.erdcloud.com/d/fTkNsmrW7igsP5dkK)
 
+### 화면 설계
+<details>
+  <summary>구현 화면</summary>
+  
+  - 메인 화면
+  <img width="1512" alt="스크린샷 2024-05-08 오전 12 11 45" src="https://github.com/beyond-sw-camp/be05-4th-1team-EffiPlanner/assets/74529390/0172645f-d240-4f47-ba02-e7df898655c4">
+
+  
+  - 로그인 화면
+  <img width="1512" alt="스크린샷 2024-05-08 오전 12 14 41" src="https://github.com/beyond-sw-camp/be05-4th-1team-EffiPlanner/assets/74529390/7984baab-315c-4e86-a492-f685991663c0">
+
+  
+  - 회원가입 화면
+  <img width="1512" alt="스크린샷 2024-05-08 오전 12 15 39" src="https://github.com/beyond-sw-camp/be05-4th-1team-EffiPlanner/assets/74529390/83ae184a-f005-4cf9-89d2-386838c540ea">
+
+
+  - 전체 일정 확인
+  <img width="1512" alt="스크린샷 2024-05-08 오전 12 15 07" src="https://github.com/beyond-sw-camp/be05-4th-1team-EffiPlanner/assets/74529390/408c6f66-4a8a-47a6-950d-5fb4789b0d11">
+
+
+  - 완료 일정 확인
+  <img width="1512" alt="스크린샷 2024-05-08 오전 12 15 18" src="https://github.com/beyond-sw-camp/be05-4th-1team-EffiPlanner/assets/74529390/f05c7a93-2706-4e88-879a-61e508c6a769">
+
+
+  - 마감일이 오늘인 미완료 일정 확인
+  <img width="1512" alt="스크린샷 2024-05-08 오전 12 15 14" src="https://github.com/beyond-sw-camp/be05-4th-1team-EffiPlanner/assets/74529390/63ae214a-6021-4f04-9394-2b101352ebe0">
+
+
+  - 오늘의 일정 확인
+  <img width="1512" alt="스크린샷 2024-05-08 오전 12 15 22" src="https://github.com/beyond-sw-camp/be05-4th-1team-EffiPlanner/assets/74529390/ef48fa2b-0e11-43b2-a89f-9a1b588c97ea">
+
+    
+  - 마이 페이지 화면
+  <img width="1512" alt="스크린샷 2024-05-08 오전 12 15 27" src="https://github.com/beyond-sw-camp/be05-4th-1team-EffiPlanner/assets/74529390/f6021d50-2c82-42f2-b89e-740e72963a42">
+
+</details>
+
+
+
 ###  CI/CD
 - Jenkins
 <img width="937" alt="KakaoTalk_Photo_2024-05-07-23-48-04" src="https://github.com/beyond-sw-camp/be05-4th-1team-EffiPlanner/assets/74529390/8a92c528-2a16-4ed9-a07b-3ed2df36fbce">
 
 - Github Actions
 <img width="835" alt="스크린샷 2024-05-08 오전 12 01 03" src="https://github.com/beyond-sw-camp/be05-4th-1team-EffiPlanner/assets/74529390/8ae85b40-dab0-410f-9ace-8e636d8bd328">
-
