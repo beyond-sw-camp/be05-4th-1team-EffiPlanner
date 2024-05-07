@@ -1,21 +1,25 @@
 <template>
   <header>
-    <hgroup class="my-5">
-      <h1>To Do List</h1>
+    <Header :text="'Effi Planner'" />
+    <br>
+    <hgroup>
       <em>{{ today }}</em>
     </hgroup>
+    <br>
+    <todo-list-container v-if="accessTokenExists" />
   </header>
-  <todo-list-container v-if="accessTokenExists" />
 </template>
 
 <script>
 import { defineComponent, inject, ref } from 'vue';
 import TodoListContainer from '../components/TodoListContainer.vue';
+import Header from '../components/Header.vue'; 
 
 export default defineComponent({
   name: 'TodoListView',
   components: {
     TodoListContainer,
+    Header
   },
   setup() {
     const accessToken = localStorage.getItem('accessToken');
