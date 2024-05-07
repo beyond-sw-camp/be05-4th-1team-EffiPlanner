@@ -11,6 +11,6 @@ FROM openjdk:17
 WORKDIR /add-backend
 
 ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} vuespring.jar
+COPY ${JAR_FILE} 1teambackend.jar
 
-ENTRYPOINT ["java", "-jar", "/vuespring.jar"]
+ENTRYPOINT ["java", "-jar", "/1teambackend.jar"]
