@@ -8,63 +8,80 @@
 </template>
 
 <script>
-import { ref, readonly, provide } from 'vue'
-import { useStorage } from '../compositions/storage'
+import { ref, provide } from 'vue'
+import { fetchTodos, addNewTodo, updateTodo, deleteTodo } from '../services/axios'
 import TodoListNew from './TodoListNew.vue'
 import TodoListMain from './TodoListMain.vue'
+
 export default {
     name : 'TodoListContainer',
-    setup() {
-        const todos = ref([]);
-        const { loadTodos, saveTodos, storage_id } = useStorage();
 
-        provide('todos', readonly(todos))
-
-        // 처음 todos 의 값을 채워줄 초기화 함수
-        const initTodos = (init_todos) => {
-            todos.value = init_todos
-        }
-
-        // todos 변수에 새로운 할 일을 더하는 함수
-        const addTodo = (job, date) => {
-            todos.value.push({
-                id: storage_id.value++,
-                job: job,
-                date: date,
-                completed: false,
-            })
-            saveTodos(todos)
-        }
-
-        // 특정 id의 객체를 todos 배열에서 제거하는 함수
-        const removeTodo = (id) => {
-            todos.value.splice(id, 1)
-            todos.value.forEach((todo, idx) => {
-                todo.id = idx
-            })
-            saveTodos(todos)
-        }
-
-        // 객체의 completed 속성을 true 로 변경하는 함수
-        const completeTodo = (id) => {
-            todos.value.find((todo) => todo.id == id).completed = true
-            saveTodos(todos)
-        }
-
-        provide('addTodo', addTodo)
-        provide('removeTodo', removeTodo)
-        provide('completeTodo',completeTodo)
-
-        loadTodos(initTodos)
-    },
     components: {
         TodoListNew,
-        TodoListMain
-    }
+        TodoListMain 
+    },
     
+    setup() {
+        const todos = ref([]);
+
+        // 할 일 목록 불러오기
+        const loadTodos = async () => {
+            try {
+                todos.value = await fetchTodos();
+            } catch (error) {
+                console.error('할 일 목록 불러오는 중 에러 발생:', error)
+            }
+        };
+
+        // 할 일 추가 함수
+        const addTodo = async (todo) => {
+            try {
+                const newTodo = await addNewTodo(todo);
+                todos.value.push(newTodo);
+            } catch (error) {
+                console.error('할 일 추가하던 중 에러 발생:', error)
+            }
+        };
+
+        // 할 일 업데이트 함수
+        const updateExistingTodo = async (id, updatedTodo) => {
+            try {
+                const updated = await updateTodo(id, updatedTodo);
+                const index = todos.value.findIndex(todo => todo.id === id);
+                if (index !== -1) {
+                    todos.value[index] = updated;
+                }
+            } catch (error) {
+                console.error('할 일 업데이트 중 에러 발생:', error)
+            }
+        }
+
+        // 할 일 삭제 함수
+        const deleteExistingTodo = async (id) => {
+            try {
+                await deleteTodo(id);
+                const index = todos.value.findIndex(todo => todo.id === id);
+                if (index !== -1) {
+                    todos.value.splice(index, 1);
+                }
+            } catch (error) {
+                console.error('할 일 삭제 중 에러 발생:', error);
+            }
+        }
+
+        provide('todos', todos);
+        provide('addTodo', addTodo);
+        provide('updateExistingTodo', updateExistingTodo);
+        provide('deleteExistingTodo', deleteExistingTodo);
+
+        loadTodos();
+
+        return {
+            todos
+        }
+    }
 }
 </script>
- 
-<style>
 
+<style>
 </style>
