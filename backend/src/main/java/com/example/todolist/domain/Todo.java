@@ -34,7 +34,7 @@ public class Todo {
     private Boolean doneYn;
 
     @ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "Email")
 	private User user;
 
     @ManyToOne

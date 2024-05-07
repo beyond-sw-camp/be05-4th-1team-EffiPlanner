@@ -44,11 +44,18 @@ public class TodoService {
 
     // todo 작성
     public void createTodo(TodoDTO params) {
-        String userId = params.getUserId();
+        String userEmail = params.getUserEmail();
         Long categoryId = params.getCategoryId();
 
-        User user = userRepository.findById(userId).orElseThrow();
-        Category category = categoryRepository.findById(categoryId).orElseThrow();
+        System.out.println(userEmail + categoryId);
+        if (userEmail == null || categoryId == null) {
+            throw new IllegalArgumentException("User email or category ID is null");
+        }
+
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + userEmail));
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new IllegalArgumentException("Category not found with ID: " + categoryId));
 
         Todo todo = params.toEntity(user, category);
         todoRepository.save(todo);
