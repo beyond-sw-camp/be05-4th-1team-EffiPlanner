@@ -54,7 +54,10 @@ public class SecurityConfig {
                                 "/login",
                                 "/signup",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html").permitAll()
+                                "/swagger-ui.html",
+                                "/user/auth/**",
+                                "/user/auth/send",
+                                "/user/auth/check").permitAll()
                     //.requestMatchers(PathRequest.toH2Console()).permitAll()
                     .anyRequest().authenticated()
             )
