@@ -2,7 +2,7 @@
   <div class="container">
     <!-- 이미지 삽입 -->
     <a href="/">
-    <p class="logo_txt">todo</p>
+      <p class="logo_txt" style="font-size: 36px; font-weight: bold; text-align: center;">Effi Planner</p>
     </a>
     <div class="login-container">
       <form class="login-form" @submit.prevent="login">
@@ -115,5 +115,8 @@ const login = async () => {
   color: black; /* 텍스트 색상 변경 */
   width: 200px; /* 로고 텍스트의 너비를 조정합니다. */
   height: auto; /* 높이 자동 조정 */
+  font-size: 36px; /* 폰트 크기를 36px로 설정합니다. */
+  font-weight: bold; /* 폰트를 굵게 설정합니다. */
+  text-align: center; /* 가운데 정렬합니다. */
 }
 </style>
