@@ -54,14 +54,14 @@ public class UserService {
 	@Transactional
 	public SignInResponse signIn(UserSignInDTO userSignInDTO){
 		Optional<User> user = userRepository.findByEmail(userSignInDTO.getEmail());
-		if (user.isPresent()) {
+		if (user.isPresent() && !user.get().getDeleteYn()) {
 			if (passwordEncoder.matches(userSignInDTO.getPassword(), user.get().getPassword())) {
 				String token = tokenProvider.createToken(String.format("%s:%s", user.get().getEmail(), "User"));
 				return new SignInResponse(user.get().getEmail(), "User", token, user.get().getUserNickname(), "로그인 성공");
 			}
 			return new SignInResponse(null, null, null, null, "비밀번호가 일치하지 않습니다");
 		}
-		return new SignInResponse(null, null, null, null, "존재하지 않는 이메일입니다");
+		return new SignInResponse(null, null, null, null, "존재하지 않는 회원입니다");
 	}
 
 	public List<String> emailCheck(String email) {
