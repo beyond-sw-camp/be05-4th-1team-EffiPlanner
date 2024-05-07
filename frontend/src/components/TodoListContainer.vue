@@ -59,9 +59,15 @@ export default {
                     updatedAt: new Date(),
                     deleteYn: false,
                     doneYn: false,
-                    userEmail: todo.userEmail ,
+                    email: todo.email ,
                     categoryId: todo.categoryId // 선택한 카테고리 ID 전달
-                });
+                }, {
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                  }
+                    }
+                );
                 todos.value.push(response.data);
             } catch (error) {
                 console.error('할 일 추가하던 중 에러 발생:', error);
