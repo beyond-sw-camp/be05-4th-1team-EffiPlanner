@@ -43,8 +43,12 @@ public class TodoDTO {
         this.updatedAt = updatedAt;
         this.deleteYn = deleteYn;
         this.doneYn = doneYn;
-        this.email = email;
-        this.categoryId = categoryId;
+        if (email != null) {
+            this.email = email;
+        }
+        if (categoryId != null) {
+            this.categoryId = categoryId;
+        }
     }
 
     public TodoDTO(Todo rtn) {
