@@ -55,5 +55,7 @@ public class TodoDTO {
         this.updatedAt = rtn.getUpdatedAt();
         this.deleteYn = rtn.getDeleteYn();
         this.doneYn = rtn.getDoneYn();
+        this.email = rtn.getUser().getEmail();
+        this.categoryId = rtn.getCategory().getCategoryId();
     }
 }
