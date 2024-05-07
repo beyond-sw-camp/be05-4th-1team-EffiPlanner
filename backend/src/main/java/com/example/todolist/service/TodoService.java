@@ -44,10 +44,10 @@ public class TodoService {
 
     // todo 작성
     public void createTodo(TodoDTO params) {
-        String userId = params.getUserId();
+        String userEmail = params.getUserEmail();
         Long categoryId = params.getCategoryId();
 
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userRepository.findByEmail(userEmail).orElseThrow();
         Category category = categoryRepository.findById(categoryId).orElseThrow();
 
         Todo todo = params.toEntity(user, category);
