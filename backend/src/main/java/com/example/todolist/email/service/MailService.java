@@ -72,7 +72,7 @@ public class MailService {
      */
     public String setEmail(String email) {
         createAuthCode();
-        String fromEmail = "leyqorwlghks@gmail.com";//?
+        String fromEmail = "teseuteu593@gmail.com";//?
         String toEmail = email;
         String title = "본인확인 인증 이메일 입니다.";
         String body = "";
