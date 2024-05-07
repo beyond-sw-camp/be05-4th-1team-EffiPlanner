@@ -2,25 +2,34 @@
   <header>
     <hgroup class="my-5">
       <h1>To Do List</h1>
-      <em>{{today}}</em>
+      <em>{{ today }}</em>
     </hgroup>
   </header>
-  <todo-list-container/>
+  <todo-list-container v-if="accessTokenExists" />
 </template>
 
 <script>
-import { inject } from 'vue'
-import TodoListContainer from '../components/TodoListContainer.vue'
+import { defineComponent, inject, ref } from 'vue';
+import TodoListContainer from '../components/TodoListContainer.vue';
 
-export default {
+export default defineComponent({
   name: 'TodoListView',
-  setup() {
-    const today = inject('today')
-    console.log("상단에 오늘 날짜  출력 " + today)
-    return { today }
+  components: {
+    TodoListContainer,
   },
-  components: { TodoListContainer },
-}
+  setup() {
+    const accessToken = localStorage.getItem('accessToken');
+    const today = inject('today');
+    console.log("상단에 오늘 날짜  출력 " + today);
+
+    const accessTokenExists = ref(false);
+    if (accessToken !== undefined && accessToken !== null) {
+      accessTokenExists.value = true;
+    }
+
+    return { today, accessTokenExists };
+  },
+});
 </script>
 
 <style scoped>
