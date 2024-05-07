@@ -74,4 +74,23 @@ public class UserService {
 		return msg;
 	}
 
+	public String signOut(UserSignInDTO userSignInDTO) {
+		Optional<User> user = userRepository.findByEmail(userSignInDTO.getEmail());
+		if (user.isPresent()) {
+			if (passwordEncoder.matches(userSignInDTO.getPassword(), user.get().getPassword())) {
+				User updateUser = User.builder()
+						.email(user.get().getEmail())
+						.userName(user.get().getUserName())
+						.userNickname(user.get().getUserNickname())
+						.password(user.get().getPassword())
+						.deleteYn(true)
+						.build();
+				userRepository.save(updateUser);
+				return "탈퇴 성공";
+			}
+			return "비밀번호가 일치하지 않습니다";
+		}
+		return "존재하지 않는 이메일입니다";
+	}
+
 }
