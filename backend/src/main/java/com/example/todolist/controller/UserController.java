@@ -44,4 +44,13 @@ public class UserController {
 		SignInResponse msg = userService.signIn(userSignInDTO);
 		return new ResponseEntity<>(msg, HttpStatus.OK);
 	}
+
+	@DeleteMapping("/signout")
+	public ResponseEntity<String> signOut(@RequestBody UserSignInDTO userSignInDTO) {
+		String msg = userService.signOut(userSignInDTO);
+		if (msg.equals("탈퇴 성공")){
+			return new ResponseEntity<>(msg, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
+	}
 }
