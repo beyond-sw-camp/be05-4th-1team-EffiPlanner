@@ -18,7 +18,7 @@ public class TodoDTO {
     private Boolean deleteYn;
     private Boolean doneYn;
 
-    private String userEmail;
+    private String email;
     private Long categoryId;
 
     public Todo toEntity(User user, Category category) {
@@ -35,7 +35,7 @@ public class TodoDTO {
                 .build();
     }
 
-    public TodoDTO(Long id, String title, LocalDateTime deadline, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean deleteYn, Boolean doneYn, String userEmail, Long categoryId) {
+    public TodoDTO(Long id, String title, LocalDateTime deadline, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean deleteYn, Boolean doneYn, String email, Long categoryId) {
         this.id = id;
         this.title = title;
         this.deadline = deadline;
@@ -43,7 +43,7 @@ public class TodoDTO {
         this.updatedAt = updatedAt;
         this.deleteYn = deleteYn;
         this.doneYn = doneYn;
-        this.userEmail = userEmail;
+        this.email = email;
         this.categoryId = categoryId;
     }
 

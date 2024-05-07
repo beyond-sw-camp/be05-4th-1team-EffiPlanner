@@ -44,7 +44,7 @@ public class TodoService {
 
     // todo 작성
     public void createTodo(TodoDTO params) {
-        String userEmail = params.getUserEmail();
+        String userEmail = params.getEmail();
         Long categoryId = params.getCategoryId();
 
         System.out.println(userEmail + categoryId);

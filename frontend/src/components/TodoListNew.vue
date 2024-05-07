@@ -35,10 +35,13 @@ export default {
         const today = inject('today');
         const addTodo = inject('addTodo');
 
+       const userEmail = localStorage.getItem('email'); // 로컬 스토리지에서 사용자의 이메일을 가져옴
+
         const state = reactive({
             job: '',
             date: today,
             today,
+            email: userEmail,
             categoryId: '' 
         });
 
@@ -62,7 +65,7 @@ export default {
                 updatedAt: new Date(),
                 deleteYn: false,
                 doneYn: false,
-                userId: state.userId,
+                email: state.email,
                 categoryId: state.categoryId,
             };
 
@@ -78,6 +81,7 @@ export default {
         return {
             ...toRefs(state),
             categories,
+            userEmail,
             onAddTodo,
         };
     },
