@@ -6,7 +6,7 @@ services:
     depends_on:
       - database
     ports:
-      - "5713:5173"
+      - "8080:8099"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/encore?useUnicode=true
       SPRING_DATASOURCE_USERNAME: work_user
@@ -27,3 +27,23 @@ services:
       - ./src/main/resources/db_config/initdb.d:/docker-entrypoint-initdb.d
     ports:
       - "6033:3306"
+  version: "3.8"
+
+  redis: # container name
+    image: redis:7.2.4
+    environment:
+      # Docker compose project name
+      COMPOSE_PROJECT_NAME: redis-test
+
+      REDIS_DATA_PATH: C:\_workspace\docker\test\volume\redis\data
+      REDIS_DEFAULT_CONFIG_FILE: C:\_workspace\docker\test\volume\redis\redis.conf
+      # etc setting
+      REDIS_BINDING_PORT: 6389
+      REDIS_PORT: 6379
+    ports: # 바인딩할 포트:내부 포트
+      - ${REDIS_BINDING_PORT}:${REDIS_PORT}
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes: # 마운트할 볼륨 설정
+      - ${REDIS_DATA_PATH}:/data
+      - ${REDIS_DEFAULT_CONFIG_FILE}:/usr/local/etc/redis/redis.conf
+    restart: always
