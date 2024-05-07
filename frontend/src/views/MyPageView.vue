@@ -11,7 +11,7 @@
         </div>
         <div class="info-item">
           <label>이름:</label>
-          <p>{{ userInfo.username }}</p>
+          <p>{{ userInfo.userName }}</p>
         </div>
         <div class="info-item">
           <label>닉네임:</label>
@@ -40,25 +40,50 @@
 
 <script>
 import Header from '../components/Header.vue';
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import axios from 'axios';
-
-export default {
-  name: 'UserInfo',
-  components: {
-    Header
-  },
+import { useRouter } from 'vue-router';
+  export default {
+    name: 'UserInfo',
+    components: {
+      Header
+    },
   setup() {
+    const router = useRouter();
     const showDeleteModal = ref(false);
     const password = ref('');
     const userInfo = reactive({
       email: '',
-      username: '',
+      userName: '',
       userNickname: ''
     });
 
     const deleteAccount = async () => {
-      // 회원 탈퇴 로직...
+      try {
+        const response = await axios.delete('http://localhost:8080/api/auth/signout', {
+          data: {
+            email: localStorage.getItem('email'),
+            password: password.value,
+          },
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        });
+        if (response.status === 200) {
+          console.log('회원 탈퇴 성공:', response.data);
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('email');
+          localStorage.removeItem('password');
+          alert('회원 탈퇴가 완료되었습니다.');
+          router.push({ name: 'home' });
+        } else {
+          console.log('회원 탈퇴 실패', response.data);
+          alert('회원 탈퇴에 실패했습니다.');
+        }
+      } catch (error) {
+        console.error('회원 탈퇴 오류:', error);
+      }
+      showDeleteModal.value = false;
     };
 
     const cancelDeletion = () => {
@@ -77,7 +102,7 @@ export default {
         });
         if (response.status === 200) {
           userInfo.email = response.data.email;
-          userInfo.username = response.data.username;
+          userInfo.userName = response.data.userName;
           userInfo.userNickname = response.data.userNickname;
         } else {
           console.error('사용자 정보 불러오기 실패:', response);
@@ -87,8 +112,9 @@ export default {
       }
     };
 
-
-    fetchUserInfo();
+    onMounted(() => {
+      fetchUserInfo();
+    });
 
     return { showDeleteModal, password, userInfo, deleteAccount, cancelDeletion };
   }
@@ -98,133 +124,106 @@ export default {
 
 <style scoped>
 .user-info {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
 h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
 }
 
 .info-item {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 label {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 button {
-    padding: 10px 20px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .reset-password-btn {
-    background-color: #013B7A;
-    color: #fff;
+  background-color: #013B7A;
+  color: #fff;
 }
 
 .delete-account-btn {
-    background-color: #3B85CE;
-    color: #fff;
+  background-color: #3B85CE;
+  color: #fff;
 }
 
 .modal {
-    position: fixed;
-    z-index: 9998;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    max-width: 50%;
-    /* Reduced width */
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  max-width: 50%;
 }
 
 .modal-content h2 {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .modal-content input[type="password"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
 .button-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-    /* Increase spacing between buttons */
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
 }
 
 .cancel-btn,
 .delete-btn {
-    padding: 8px 16px;
-    /* Reduced button size */
-    margin-left: 10px;
-    /* Increase spacing between buttons */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  padding: 8px 16px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .cancel-btn {
-    background-color: #3B85CE;
-    color: #fff;
+  background-color: #3B85CE;
+  color: #fff;
 }
 
 .delete-btn {
-    background-color: #013B7A;
-    color: #fff;
+  background-color: #013B7A;
+  color: #fff;
 }
 
 .cancel-btn:hover,
 .delete-btn:hover {
-    opacity: 0.8;
-}
-
-.auth-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-}
-
-.button-wrapper {
-    background-color: lightseagreen;
-    color: black;
-    border-radius: 5px;
-    padding: 10px 20px;
-    text-align: center;
-    cursor: pointer;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    margin-left: auto;
-}
-
-.input-class {
-    width: 80%;
+  opacity: 0.8;
 }
 </style>
