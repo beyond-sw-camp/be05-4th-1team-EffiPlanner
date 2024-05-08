@@ -2,7 +2,7 @@ name: Java with Gradle
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
     
 jobs:
   build:
@@ -43,4 +43,4 @@ jobs:
         file: ./Dockerfile
         push: true
         # DOKER BUILD -T KIMHYEYEON2/IMAGE/TAGS
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/1teamspringapp:${{github.sha}}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/1teamspringapp:1.0
