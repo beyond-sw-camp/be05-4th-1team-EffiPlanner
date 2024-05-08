@@ -17,11 +17,10 @@
 - DB
     - Mariadb
     - Redis (Email Certification)
-- Spring Security (JWT Refresh Token, access Token)
+- Spring Security (JWT access Token)
 - Swagger (API Documentation)
 - Vue.js
 - Javascript
-- Jenkins
 - Github Actions
 
 ### 요구사항 명세서
@@ -81,4 +80,6 @@
 ###  CI/CD
 
 - Github Actions
-<img width="835" alt="스크린샷 2024-05-08 오전 12 01 03" src="https://github.com/beyond-sw-camp/be05-4th-1team-EffiPlanner/assets/74529390/8ae85b40-dab0-410f-9ace-8e636d8bd328">
+
+<img width="635" alt="image" src="https://github.com/beyond-sw-camp/be05-4th-1team-EffiPlanner/assets/61785329/8d39f129-d872-480e-870a-56c3dc3fc4c8">
+
