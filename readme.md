@@ -79,8 +79,6 @@
 
 
 ###  CI/CD
-- Jenkins
-<img width="937" alt="KakaoTalk_Photo_2024-05-07-23-48-04" src="https://github.com/beyond-sw-camp/be05-4th-1team-EffiPlanner/assets/74529390/8a92c528-2a16-4ed9-a07b-3ed2df36fbce">
 
 - Github Actions
 <img width="835" alt="스크린샷 2024-05-08 오전 12 01 03" src="https://github.com/beyond-sw-camp/be05-4th-1team-EffiPlanner/assets/74529390/8ae85b40-dab0-410f-9ace-8e636d8bd328">
